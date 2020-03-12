@@ -19,10 +19,9 @@ router.post("/", validateUser, (req, res) => {
     });
 });
 
-// WHAT THE HECK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 router.post("/:id/posts", validateUserId, validatePost, (req, res) => {
-  console.log(req.body);
-  Posts.insert(req.body)
+  const postData = { ...req.body, user_id: req.params.id };
+  Posts.insert(postData)
     .then(post => {
       res.status(201).json(post);
     })
