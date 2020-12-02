@@ -8,8 +8,8 @@ const server = express();
 server.use(logger);
 server.use(express.json());
 
-server.use("/api/posts", logger, postRouter);
-server.use("/api/users", logger, userRouter);
+server.use("/api/posts", postRouter);
+server.use("/api/users", userRouter);
 
 server.get("/", logger, (req, res) => {
   res.status(200).json({ message: "Welcome" });

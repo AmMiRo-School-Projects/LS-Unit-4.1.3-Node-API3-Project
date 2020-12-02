@@ -47,7 +47,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:id", validateUserId, (req, res) => {
+router.get("/:id", otherValidateUserId, (req, res) => {
   Users.getById(req.params.id)
     .then(user => {
       res.status(200).json(user);
@@ -114,6 +114,19 @@ function validateUserId(req, res, next) {
         res.status(400).json({ message: "invalid user id" });
       } else {
         req.user = users.filter(user => user.id === Number(req.params.id))[0];
+        next();
+      }
+    })
+    .catch(err => console.log(err));
+}
+
+function otherValidateUserId(req, res, next) {
+  Users.getById(req.params.id)
+    .then(user => {
+      if (!user) {
+        res.status(400).json({ message: "invalid user id" });
+      } else {
+        req.user = user;
         next();
       }
     })
